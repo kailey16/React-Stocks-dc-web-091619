@@ -29,25 +29,28 @@ class MainContainer extends Component {
   }
 
   changeFilter = (e) => {
-    const stocksFiltered = this.state.allstocks.filter(stock => stock.type === e.target.value)
+    const stocksFiltered = e.target.value === "All" ? (this.state.allstocks) : (this.state.allstocks.filter(stock => stock.type === e.target.value))
     this.setState({stocks: stocksFiltered})
+    document.querySelector(".aSort").checked = false
+    document.querySelector(".pSort").checked = false
   }
 
-  radioChecked = (e) => {
+  checkboxChecked = (e) => {
+    if (e.target.checked) {
     if (e.target.name === "A") {
       const aSorted = this.state.stocks.sort((a,b) => a.name > b.name ? 1 : -1)
       this.setState({stocks: aSorted})
-    } else {
+    } else if (e.target.name === "P") {
       const pSorted = this.state.stocks.sort((a,b) => a.price > b.price ? 1 : -1)
       this.setState({stocks: pSorted})
-    }
+    }}
   }
 
 
   render() {
     return (
       <div>
-        <SearchBar changeFilter={this.changeFilter} radioChecked={this.radioChecked} />
+        <SearchBar changeFilter={this.changeFilter} checkboxChecked={this.checkboxChecked} />
 
           <div className="row">
             <div className="col-8">
